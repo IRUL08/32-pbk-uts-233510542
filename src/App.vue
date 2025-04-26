@@ -1,30 +1,63 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="app">
+    <h1>My To-Do List</h1>
+
+    <!-- Input untuk menambahkan kegiatan -->
+    <form @submit.prevent="addTask">
+      <input v-model="newTask" placeholder="Tambah kegiatan baru..." />
+      <button type="submit">Tambah</button>
+    </form>
+
+    <!-- Daftar kegiatan -->
+    <ul>
+      <li v-for="(task, index) in tasks" :key="index">
+        {{ task }}
+      </li>
+    </ul>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      newTask: '',    // Untuk input baru
+      tasks: [],      // Daftar kegiatan
+    }
+  },
+  methods: {
+    addTask() {
+      if (this.newTask.trim() !== '') {
+        this.tasks.push(this.newTask.trim()) // Tambahkan ke array
+        this.newTask = ''                    // Kosongkan input setelah tambah
+      }
+    },
+  },
+}
+</script>
+
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.app {
+  max-width: 500px;
+  margin: 50px auto;
+  text-align: center;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+input {
+  width: 70%;
+  padding: 10px;
+  margin-right: 5px;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+button {
+  padding: 10px 20px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  margin: 10px 0;
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
 }
 </style>
