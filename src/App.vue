@@ -2,7 +2,6 @@
   <div class="app">
     <h1>📋 List Kegiatan</h1>
 
-    <!-- Input Form -->
     <form @submit.prevent="addTask" class="form">
       <input
         v-model="newTask"
@@ -13,7 +12,6 @@
       <button type="submit" class="btn-add">➕ Tambah</button>
     </form>
 
-    <!-- Daftar Kegiatan -->
     <ul class="task-list">
       <li
         v-for="(task, index) in tasks"
@@ -23,7 +21,8 @@
       >
         <div class="task-content">
           <input type="checkbox" v-model="task.completed" />
-          <span>{{ task.text }}</span>
+          <span class="check-icon" v-if="task.completed">✔️</span>
+          <span class="task-text">{{ task.text }}</span>
         </div>
         <button @click="removeTask(index)" class="btn-cancel">❌ Batal</button>
       </li>
@@ -35,8 +34,8 @@
 export default {
   data() {
     return {
-      newTask: '',   // Inputan user
-      tasks: [],     // List kegiatan (tiap item ada text + completed)
+      newTask: '',  
+      tasks: [],    
     }
   },
   methods: {
@@ -55,13 +54,13 @@ export default {
 </script>
 
 <style scoped>
-/* Basic Page Styling */
+
 body {
   background-color: #f0f4f8;
   font-family: 'Poppins', sans-serif;
 }
 
-/* App Wrapper */
+
 .app {
   max-width: 500px;
   margin: 80px auto;
@@ -72,14 +71,14 @@ body {
   text-align: center;
 }
 
-/* Title */
+
 h1 {
   font-size: 28px;
   margin-bottom: 20px;
   color: #333;
 }
 
-/* Form */
+
 .form {
   display: flex;
   gap: 10px;
@@ -100,7 +99,6 @@ h1 {
   border-color: #42b983;
 }
 
-/* Add Button */
 .btn-add {
   background-color: #42b983;
   color: white;
@@ -116,7 +114,7 @@ h1 {
   background-color: #369f6e;
 }
 
-/* Task List */
+
 .task-list {
   list-style: none;
   padding: 0;
@@ -130,28 +128,38 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.3s;
+  transition: 0.3s;
 }
 
 .task-item:hover {
   background: #eef2f7;
 }
 
-/* Task Content */
+
+.completed {
+  background-color: #e0f8e9;
+}
+
+.completed .task-text {
+  text-decoration: line-through;
+  color: gray;
+  opacity: 0.7;
+}
+
+
 .task-content {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Checkbox checked */
-.completed span {
-  text-decoration: line-through;
-  color: gray;
-  opacity: 0.7;
+
+.check-icon {
+  color: #42b983;
+  font-size: 18px;
 }
 
-/* Cancel Button */
+
 .btn-cancel {
   background-color: #ff6b6b;
   border: none;
