@@ -2,7 +2,7 @@
   <div class="app">
     <h1>📋 List Kegiatan</h1>
 
-    <!-- Input Form -->
+    
     <form @submit.prevent="addTask" class="form">
       <input
         v-model="newTask"
@@ -13,7 +13,7 @@
       <button type="submit" class="btn-add">➕ Tambah</button>
     </form>
 
-    <!-- Filter Button -->
+    
     <div class="filter-buttons">
       <button @click="filter = 'all'" :class="{ active: filter === 'all' }">
         Semua
@@ -23,8 +23,8 @@
       </button>
     </div>
 
-    <!-- Daftar Kegiatan -->
-    <ul class="task-list">
+   
+    <transition-group name="task-list" tag="ul" class="task-list">
       <li
         v-for="(task, index) in filteredTasks"
         :key="index"
@@ -38,7 +38,7 @@
         </div>
         <button @click="removeTask(index)" class="btn-cancel">❌ Batal</button>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
@@ -48,7 +48,7 @@ export default {
     return {
       newTask: '',
       tasks: [],
-      filter: 'all',  // 'all' atau 'unfinished'
+      filter: 'all',  
     }
   },
   computed: {
@@ -75,31 +75,33 @@ export default {
 </script>
 
 <style scoped>
-/* Basic Page Styling */
+
 body {
-  background-color: #f0f4f8;
+  background-color: #e0f7fa; 
   font-family: 'Poppins', sans-serif;
 }
 
-/* App Container */
+
 .app {
   max-width: 500px;
   margin: 80px auto;
   background: #ffffff;
   padding: 30px;
   border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   text-align: center;
+  animation: fadeIn 0.8s ease; 
 }
 
-/* Title */
+
 h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #333;
+  font-size: 30px;
+  margin-bottom: 24px;
+  color: #00796b; 
+  animation: slideDown 0.6s ease;
 }
 
-/* Form */
+
 .form {
   display: flex;
   gap: 10px;
@@ -109,7 +111,7 @@ h1 {
 .input {
   flex: 1;
   padding: 12px;
-  border: 2px solid #ddd;
+  border: 2px solid #80deea;
   border-radius: 12px;
   font-size: 16px;
   outline: none;
@@ -117,11 +119,11 @@ h1 {
 }
 
 .input:focus {
-  border-color: #42b983;
+  border-color: #00acc1;
 }
 
 .btn-add {
-  background-color: #42b983;
+  background-color: #00acc1;
   color: white;
   border: none;
   padding: 12px 18px;
@@ -132,10 +134,10 @@ h1 {
 }
 
 .btn-add:hover {
-  background-color: #369f6e;
+  background-color: #00838f;
 }
 
-/* Filter Buttons */
+
 .filter-buttons {
   margin-bottom: 20px;
 }
@@ -145,39 +147,40 @@ h1 {
   padding: 8px 14px;
   border: none;
   border-radius: 8px;
-  background-color: #ddd;
+  background-color: #b2ebf2;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .filter-buttons .active {
-  background-color: #42b983;
+  background-color: #00acc1;
   color: white;
 }
 
-/* Task List */
+
 .task-list {
   list-style: none;
   padding: 0;
 }
 
 .task-item {
-  background: #f9fafc;
+  background: #ffffff;
   margin-bottom: 12px;
   padding: 14px 20px;
   border-radius: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.3s;
+  transition: all 0.3s;
+  animation: scaleUp 0.5s ease;
 }
 
 .task-item:hover {
-  background: #eef2f7;
+  background: #e0f2f1;
 }
 
 .completed {
-  background-color: #e0f8e9;
+  background-color: #b2dfdb;
 }
 
 .completed .task-text {
@@ -186,22 +189,22 @@ h1 {
   opacity: 0.7;
 }
 
-/* Task Content */
+
 .task-content {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Check Icon */
+
 .check-icon {
-  color: #42b983;
+  color: #00acc1;
   font-size: 18px;
 }
 
-/* Cancel Button */
+
 .btn-cancel {
-  background-color: #ff6b6b;
+  background-color: #ff8a80;
   border: none;
   color: white;
   padding: 8px 12px;
@@ -212,6 +215,40 @@ h1 {
 }
 
 .btn-cancel:hover {
-  background-color: #ff4c4c;
+  background-color: #e53935;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 </style>
