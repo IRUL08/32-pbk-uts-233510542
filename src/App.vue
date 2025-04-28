@@ -15,8 +15,16 @@
 
     <!-- Daftar Kegiatan -->
     <ul class="task-list">
-      <li v-for="(task, index) in tasks" :key="index" class="task-item">
-        <span>{{ task }}</span>
+      <li
+        v-for="(task, index) in tasks"
+        :key="index"
+        :class="{ completed: task.completed }"
+        class="task-item"
+      >
+        <div class="task-content">
+          <input type="checkbox" v-model="task.completed" />
+          <span>{{ task.text }}</span>
+        </div>
         <button @click="removeTask(index)" class="btn-cancel">❌ Batal</button>
       </li>
     </ul>
@@ -27,33 +35,33 @@
 export default {
   data() {
     return {
-      newTask: '',
-      tasks: [],
+      newTask: '',   // Inputan user
+      tasks: [],     // List kegiatan (tiap item ada text + completed)
     }
   },
   methods: {
     addTask() {
       const trimmed = this.newTask.trim()
       if (trimmed) {
-        this.tasks.push(trimmed)
+        this.tasks.push({ text: trimmed, completed: false })
         this.newTask = ''
       }
     },
     removeTask(index) {
       this.tasks.splice(index, 1)
-    }
+    },
   },
 }
 </script>
 
 <style scoped>
-/* Global Styles */
+/* Basic Page Styling */
 body {
   background-color: #f0f4f8;
   font-family: 'Poppins', sans-serif;
 }
 
-/* App Container */
+/* App Wrapper */
 .app {
   max-width: 500px;
   margin: 80px auto;
@@ -64,7 +72,7 @@ body {
   text-align: center;
 }
 
-/* Heading */
+/* Title */
 h1 {
   font-size: 28px;
   margin-bottom: 20px;
@@ -127,6 +135,20 @@ h1 {
 
 .task-item:hover {
   background: #eef2f7;
+}
+
+/* Task Content */
+.task-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Checkbox checked */
+.completed span {
+  text-decoration: line-through;
+  color: gray;
+  opacity: 0.7;
 }
 
 /* Cancel Button */
