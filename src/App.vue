@@ -2,6 +2,7 @@
   <div class="app">
     <h1>📋 List Kegiatan</h1>
 
+    <!-- Input Form -->
     <form @submit.prevent="addTask" class="form">
       <input
         v-model="newTask"
@@ -12,9 +13,20 @@
       <button type="submit" class="btn-add">➕ Tambah</button>
     </form>
 
+    <!-- Filter Button -->
+    <div class="filter-buttons">
+      <button @click="filter = 'all'" :class="{ active: filter === 'all' }">
+        Semua
+      </button>
+      <button @click="filter = 'unfinished'" :class="{ active: filter === 'unfinished' }">
+        Belum Selesai
+      </button>
+    </div>
+
+    <!-- Daftar Kegiatan -->
     <ul class="task-list">
       <li
-        v-for="(task, index) in tasks"
+        v-for="(task, index) in filteredTasks"
         :key="index"
         :class="{ completed: task.completed }"
         class="task-item"
@@ -34,8 +46,17 @@
 export default {
   data() {
     return {
-      newTask: '',  
-      tasks: [],    
+      newTask: '',
+      tasks: [],
+      filter: 'all',  // 'all' atau 'unfinished'
+    }
+  },
+  computed: {
+    filteredTasks() {
+      if (this.filter === 'unfinished') {
+        return this.tasks.filter(task => !task.completed)
+      }
+      return this.tasks
     }
   },
   methods: {
@@ -54,13 +75,13 @@ export default {
 </script>
 
 <style scoped>
-
+/* Basic Page Styling */
 body {
   background-color: #f0f4f8;
   font-family: 'Poppins', sans-serif;
 }
 
-
+/* App Container */
 .app {
   max-width: 500px;
   margin: 80px auto;
@@ -71,14 +92,14 @@ body {
   text-align: center;
 }
 
-
+/* Title */
 h1 {
   font-size: 28px;
   margin-bottom: 20px;
   color: #333;
 }
 
-
+/* Form */
 .form {
   display: flex;
   gap: 10px;
@@ -114,7 +135,27 @@ h1 {
   background-color: #369f6e;
 }
 
+/* Filter Buttons */
+.filter-buttons {
+  margin-bottom: 20px;
+}
 
+.filter-buttons button {
+  margin: 0 5px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.filter-buttons .active {
+  background-color: #42b983;
+  color: white;
+}
+
+/* Task List */
 .task-list {
   list-style: none;
   padding: 0;
@@ -128,13 +169,12 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: 0.3s;
+  transition: background 0.3s;
 }
 
 .task-item:hover {
   background: #eef2f7;
 }
-
 
 .completed {
   background-color: #e0f8e9;
@@ -146,20 +186,20 @@ h1 {
   opacity: 0.7;
 }
 
-
+/* Task Content */
 .task-content {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-
+/* Check Icon */
 .check-icon {
   color: #42b983;
   font-size: 18px;
 }
 
-
+/* Cancel Button */
 .btn-cancel {
   background-color: #ff6b6b;
   border: none;
